@@ -1,0 +1,207 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@300;400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --cyber-black: #080c10;
+  --cyber-dark: #0d1117;
+  --cyber-panel: #161b22;
+  --cyber-border: #21262d;
+  --cyber-green: #39ff14;
+  --cyber-lime: #a8ff3e;
+  --cyber-red: #ff3e3e;
+  --cyber-orange: #ff8c00;
+  --cyber-blue: #0095ff;
+  --cyber-muted: #8b949e;
+  --cyber-text: #c9d1d9;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  background: var(--cyber-black);
+  color: var(--cyber-text);
+  font-family: 'JetBrains Mono', monospace;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* Scanline overlay effect */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--cyber-dark); }
+::-webkit-scrollbar-thumb { background: var(--cyber-green); border-radius: 3px; }
+
+/* Selection */
+::selection { background: var(--cyber-green); color: var(--cyber-black); }
+
+/* Glow effects */
+.glow-green { text-shadow: 0 0 10px var(--cyber-green), 0 0 20px var(--cyber-green); }
+.glow-red { text-shadow: 0 0 10px var(--cyber-red), 0 0 20px var(--cyber-red); }
+.glow-blue { text-shadow: 0 0 10px var(--cyber-blue), 0 0 20px var(--cyber-blue); }
+
+.box-glow-green { box-shadow: 0 0 10px rgba(57, 255, 20, 0.3), inset 0 0 10px rgba(57, 255, 20, 0.05); }
+.box-glow-red { box-shadow: 0 0 10px rgba(255, 62, 62, 0.3), inset 0 0 10px rgba(255, 62, 62, 0.05); }
+
+/* Terminal cursor blink */
+.cursor::after {
+  content: '█';
+  animation: blink 1s step-end infinite;
+  color: var(--cyber-green);
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Scan line animation */
+.scan-line {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyber-green), transparent);
+  opacity: 0.4;
+  animation: scan 4s linear infinite;
+  pointer-events: none;
+  z-index: 9998;
+}
+
+@keyframes scan {
+  0% { top: -2px; }
+  100% { top: 100vh; }
+}
+
+/* Panel styles */
+.cyber-panel {
+  background: var(--cyber-panel);
+  border: 1px solid var(--cyber-border);
+  position: relative;
+}
+
+.cyber-panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cyber-green), transparent);
+  opacity: 0.5;
+}
+
+/* Code block */
+.code-block {
+  background: var(--cyber-black);
+  border: 1px solid var(--cyber-border);
+  border-left: 3px solid var(--cyber-green);
+  padding: 1rem 1.25rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  color: var(--cyber-lime);
+}
+
+/* Badge */
+.badge-danger {
+  background: rgba(255, 62, 62, 0.1);
+  border: 1px solid var(--cyber-red);
+  color: var(--cyber-red);
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.badge-safe {
+  background: rgba(57, 255, 20, 0.1);
+  border: 1px solid var(--cyber-green);
+  color: var(--cyber-green);
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.badge-warn {
+  background: rgba(255, 140, 0, 0.1);
+  border: 1px solid var(--cyber-orange);
+  color: var(--cyber-orange);
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Blur overlay - for permission demo section */
+.permission-blur {
+  filter: blur(8px);
+  pointer-events: none;
+  user-select: none;
+  transition: filter 0.5s ease;
+}
+
+.permission-blur.unlocked {
+  filter: none;
+  pointer-events: all;
+  user-select: auto;
+}
+
+/* Animated grid background */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(57, 255, 20, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(57, 255, 20, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Typewriter effect */
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typewriter 2s steps(40) forwards;
+}
+
+/* Fade in up */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Stagger delays */
+.delay-100 { animation-delay: 0.1s; opacity: 0; }
+.delay-200 { animation-delay: 0.2s; opacity: 0; }
+.delay-300 { animation-delay: 0.3s; opacity: 0; }
+.delay-400 { animation-delay: 0.4s; opacity: 0; }
+.delay-500 { animation-delay: 0.5s; opacity: 0; }
